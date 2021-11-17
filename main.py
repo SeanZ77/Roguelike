@@ -85,21 +85,18 @@ while True:
             if menuActive:
                 if len(menu.powerUpgrades) > 0:
                     if menu.button1XY[0] <= mouseX <= menu.button1XY[0] + 100 and menu.button1XY[1] <= mouseY <= menu.button1XY[1] + 50:
-                        player.upgrades.append(menu.powerUpgrade)
-                        menu.powerUpgrades.remove(menu.powerUpgrade)
+                        player.upgrades[menu.powerUpgrade] += 1
                         menu.powerUpgrade = None
                         newLevel()
                 if len(menu.healthUpgrades) > 0:
                     if menu.button2XY[0] <= mouseX <= menu.button2XY[0] + 100 and menu.button2XY[1] <= mouseY <= menu.button2XY[1] + 50:
-                        player.upgrades.append(menu.healthUpgrade)
-                        menu.healthUpgrades.remove(menu.healthUpgrade)
+                        player.upgrades[menu.healthUpgrade] += 1
                         menu.healthUpgrade = None
                         newLevel()
 
                 if len(menu.miscUpgrades) > 0:
                     if menu.button3XY[0] <= mouseX <= menu.button3XY[0] + 100 and menu.button3XY[1] <= mouseY <= menu.button3XY[1] + 50:
-                        player.upgrades.append(menu.miscUpgrade)
-                        menu.miscUpgrades.remove(menu.miscUpgrade)
+                        player.upgrades[menu.miscUpgrade] += 1
                         menu.miscUpgrade = None
                         newLevel()
 
@@ -167,18 +164,14 @@ while True:
     else:
         menuActive = False
 
-
     if menuActive:
         if menu.powerUpgrade is None:
-            if len(menu.powerUpgrades) > 0:
-                menu.generateUpgrade("Power")
+            menu.generateUpgrade("Power")
         if menu.healthUpgrade is None:
-            if len(menu.healthUpgrades) > 0:
-                menu.generateUpgrade("Health")
+            menu.generateUpgrade("Health")
         if menu.miscUpgrade is None:
-            if len(menu.miscUpgrades) > 0:
-                menu.generateUpgrade("Misc")
-        menu.update(window)
+            menu.generateUpgrade("Misc")
+        menu.update(window,player)
 
 
 

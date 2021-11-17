@@ -23,13 +23,13 @@ class Player(pygame.sprite.Sprite):
         self.mag = 10
         self.health = self.maxHealth
         self.fullAuto = False
-        self.upgrades = {"Damage":0,
-                        "Full Auto":0,
-                        "Piercing":0,
-                        "DoT":0,
-                        "Multi Shot":0,
-                        "Explosive":0,
-                        "Mag Size":0,
+        self.upgrades = {"Damage":10,
+                        "Full Auto":10,
+                        "Piercing":10,
+                        "DoT":10,
+                        "Multi Shot":10,
+                        "Explosive":10,
+                        "Mag Size":10,
                         "Armor":0,
                         "Shields":0,
                         "Regen":0,
@@ -52,23 +52,21 @@ class Player(pygame.sprite.Sprite):
         if keystate[pygame.K_s]:
             self.yvel += self.speed
 
-        if "Damage" in self.upgrades:
-            self.damage = 4
-        if "Max Health" in self.upgrades:
-            self.maxHealth = 150
-        if "Shields" in self.upgrades:
+
+        self.damage = 2 + (2*self.upgrades["Damage"])
+        self.maxHealth = 100 + (50*self.upgrades["Max Health"])
+        self.maxMoveDelay = 6 - self.upgrades["Speed"]
+        if self.upgrades["Shields"] > 0:
             if self.shieldcd == 0:
-                self.shields = 75
+                self.shields = self.upgrades["Shields"] * 50
                 self.shieldcd = 10000
             if self.shields == 0:
                 self.shieldcd -= 1
             if self.shields < 0:
                 self.shields = 0
-        if "Regen" in self.upgrades:
-            if self.health < self.maxHealth:
-                self.health += 0.001
-        if "Speed" in self.upgrades:
-            self.speed = 2
+        if self.health < self.maxHealth:
+            self.health += 0.002 * (self.upgrades["Regen"])
+
 
 
 
@@ -101,21 +99,11 @@ class Player(pygame.sprite.Sprite):
 
 
     def shoot(self,x,y,tx,ty,all_sprites,bullet_img,bullets):
-        if "Bullet Speed" in self.upgrades:
-            bullet = Bullet(x,y,tx,ty,bullet_img,self,bullets,1.5)
-            all_sprites.add(bullet)
-        else:
-            bullet = Bullet(x,y,tx,ty,bullet_img,self,bullets,1)
-            all_sprites.add(bullet)
+        bullet = Bullet(x,y,tx,ty,bullet_img,self,bullets,1+(0.25*self.upgrades["Bullet Speed"]))
+        all_sprites.add(bullet)
 
     def takeDamage(self,damage):
         if self.shields > 0:
-            if "Dmg Reduction" in self.upgrades:
-                self.shields -= damage / 1.2
-            else:
-                self.shields -= damage
+            self.shields -= damage / (1 + (0.1*self.upgrades["Armor"]))
         else:
-            if "Dmg Reduction" in self.target.upgrades:
-                self.health -= damage / 1.2
-            else:
-                self.health -= damage
+            self.health -= damage / (1 + (0.1 * self.upgrades["Armor"]))

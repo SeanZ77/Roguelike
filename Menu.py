@@ -34,29 +34,21 @@ class Menu():
         elif upgrade == "Misc":
             self.miscUpgrade = random.choice(self.miscUpgrades)
 
-    def update(self,window):
+    def update(self,window,player):
 
         self.button1.draw(window)
         self.button2.draw(window)
         self.button3.draw(window)
 
         self.draw_text(window, "Power", 17, (0, 0, 0), 330, 338)
-
-        if len(self.powerUpgrades) > 0:
-            self.draw_text(window, self.powerUpgrade, 15, (0, 0, 0), 330, 358)
-        else:
-            self.draw_text(window, "Maxed", 16, (0, 0, 0), 330, 358)
+        self.draw_text(window, self.powerUpgrade, 14, (0, 0, 0), 330, 356)
+        if player.upgrades[self.powerUpgrade] > 0:
+            self.draw_text(window, "Level " + str(player.upgrades[self.powerUpgrade] + 1), 12, (0, 0, 0), 330, 367)
 
         self.draw_text(window, "Health", 17, (0, 0, 0), 480, 338)
+        self.draw_text(window, self.healthUpgrade, 14, (0, 0, 0), 480, 356)
 
-        if len(self.healthUpgrades) > 0:
-            self.draw_text(window, self.healthUpgrade, 15, (0, 0, 0), 480, 358)
-        else:
-            self.draw_text(window, "Maxed", 16, (0, 0, 0), 480, 358)
         self.draw_text(window, "Misc.", 17, (0, 0, 0), 630, 338)
+        self.draw_text(window, self.miscUpgrade, 14, (0, 0, 0), 630, 356)
 
-        if len(self.miscUpgrades) > 0:
-            self.draw_text(window, self.miscUpgrade, 15, (0, 0, 0), 630, 358)
-        else:
-            self.draw_text(window, "Maxed", 16, (0, 0, 0), 630, 358)
 
