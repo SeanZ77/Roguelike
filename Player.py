@@ -113,7 +113,7 @@ class Player(pygame.sprite.Sprite):
             if "Dmg Reduction" in self.upgrades:
                 self.shields -= damage / 1.2
             else:
-                self.hields -= damage
+                self.shields -= damage
         else:
             if "Dmg Reduction" in self.target.upgrades:
                 self.health -= damage / 1.2
